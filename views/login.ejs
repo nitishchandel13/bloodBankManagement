@@ -1,0 +1,32 @@
+<!-- views/login.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <center>
+        <div class="container">
+            <h1>Blood Bank Management System</h1>
+            <h2>Login</h2>
+            <% if (error) { %>
+                <p style="color: red;"><%= error %></p> <!-- Display error message -->
+            <% } %>
+            <form class="formClass" action="/login" method="POST">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+    
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+    
+                <button type="submit">Login</button>
+            </form>
+            <p>Don’t have an account? <a href="/register">Register here</a>.</p>
+            <a href="/forgot-password">Forgot Password?</a>
+        </div>
+    </center>
+</body>
+</html>

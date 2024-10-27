@@ -1,0 +1,99 @@
+<!-- views/requests.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="/css/jquery.dataTables.min.css">
+    <!-- jQuery and DataTables JavaScript -->
+    <script src="/js/jquery-3.6.0.min.js"></script>
+    <script src="/js/jquery.dataTables.min.js"></script>
+    <title>Blood Requests</title>
+</head>
+<body>
+  <%- include('partials/navbar') %> <!-- Include Navbar -->
+  <div class="container">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <h2>Blood Requests</h2>
+      <button onclick="scrollToForm()" class="add-request-btn">Add Request</button>
+      <% if (error) { %>
+        <p style="color: red;"><%= error %></p> <!-- Display error message -->
+      <% } %>
+    </div>
+    <!-- Your table or page content here -->
+    <table border="1" id="dataTable" class="display" style="width:100%; border: 1px solid #ddd; text-align: left;">
+      <thead>
+        <tr>
+          <th>Patient Name</th>
+          <th>Blood Group</th>
+          <th>Units Required</th>
+          <th>Contact Number</th>
+          <th>Request Date</th>
+          <th>Status</th>
+          <% if (session.role === 'Admin') { %> <!-- Only show if Admin -->
+            <th>Actions</th>
+          <% } %>
+        </tr>
+      </thead>
+      <tbody>
+        <% requests.forEach(request => { %>
+          <tr>
+            <td><%= request.patientName %></td>
+            <td><%= request.bloodGroup %></td>
+            <td><%= request.unitsRequired %></td>
+            <td><%= request.contactNumber %></td>
+            <td><%= request.requestDate.toDateString() %></td>
+            <td><%= request.status %></td>
+            <% if (session.role === 'Admin' && request.status === 'Pending') { %>
+              <td>
+                  <form action="/requests/<%= request._id %>/approve" method="POST" style="display:inline;">
+                    <button type="submit">Approve</button>
+                  </form>
+                  <form action="/requests/<%= request._id %>/reject" method="POST" style="display:inline;">
+                    <button type="submit">Reject</button>
+                  </form>
+              </td>
+            <% } else if (session.role === 'Admin') { %>
+              <td></td> <!-- Empty cell for non-pending requests -->
+            <% } %>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+
+    <h2 id="request-form-section">Submit a New Blood Request</h2>
+    <form class="formClass" action="/requests" method="POST">
+        <label for="patientName">Patient Name:</label>
+        <input type="text" id="patientName" name="patientName" required><br>
+
+        <label for="bloodGroup">Blood Group:</label>
+        <input type="text" id="bloodGroup" name="bloodGroup" required><br>
+
+        <label for="unitsRequired">Units Required:</label>
+        <input type="number" id="unitsRequired" name="unitsRequired" required><br>
+
+        <label for="contactNumber">Contact Number:</label>
+        <input type="text" id="contactNumber" name="contactNumber" required><br>
+
+        <button type="submit">Submit Request</button>
+    </form>
+    <script>
+      $(document).ready(function() {
+          $('#dataTable').DataTable({
+              "paging": true,
+              "searching": true,
+              "ordering": true,
+              "lengthMenu": [5, 10, 20], // Controls the pagination options
+              "pageLength": 5 // Default number of rows per page
+          });
+      });
+
+      function scrollToForm() {
+          document.getElementById("request-form-section").scrollIntoView({ behavior: 'smooth' });
+      }
+    </script>
+  </div>
+</body>
+</html>

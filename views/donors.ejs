@@ -1,0 +1,68 @@
+<!-- views/donors.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <!-- DataTables CSS -->
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css"> -->
+    <link rel="stylesheet" href="/css/jquery.dataTables.min.css">
+    <!-- jQuery and DataTables JavaScript -->
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    <!-- <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script> -->
+    <script src="/js/jquery-3.6.0.min.js"></script>
+    <script src="/js/jquery.dataTables.min.js"></script>
+    <title>Blood Donors List</title>
+</head>
+<body>
+    <%- include('partials/navbar') %> <!-- Include Navbar -->
+    <div class="container">
+        <h2>Blood Donors List</h2>
+        <table border="1" id="dataTable" class="display" style="width:100%; border: 1px solid #ddd; text-align: left;">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Blood Group</th>
+                    <th>Units Donated</th>
+                    <th>Contact Number</th>
+                    <th>City</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% donors.forEach(donor => { %>
+                    <tr>
+                        <td><%= donor.donorName %></td>
+                        <td><%= donor.bloodGroup %></td>
+                        <td><%= donor.unitsDonated %></td>
+                        <td><%= donor.contactNumber %></td>
+                        <td><%= donor.city %></td>
+                        <td>
+                            <form action="/donors/<%= donor._id %>/edit" method="GET" style="display:inline;">
+                                <button type="submit">Edit</button>
+                            </form>
+                            <!-- <form action="/donors/<%= donor._id %>/delete" method="POST" style="display:inline;">
+                            <button type="submit">Delete</button>
+                            </form> -->
+                        </td>
+                        
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+        <script>
+            $(document).ready(function() {
+                $('#dataTable').DataTable({
+                    "paging": true,
+                    "searching": true,
+                    "ordering": true,
+                    "lengthMenu": [5, 10, 20], // Controls the pagination options
+                    "pageLength": 5 // Default number of rows per page
+                });
+            });
+        </script>
+    </div>
+    
+</body>
+</html>

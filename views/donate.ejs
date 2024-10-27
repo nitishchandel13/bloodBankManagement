@@ -1,0 +1,35 @@
+<!-- views/donate.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>Donate Blood</title>
+</head>
+<body>
+    <%- include('partials/navbar') %> <!-- Include Navbar -->
+    <div class="container">
+        <h2>Donate Blood</h2>
+        <form class="formClass" action="/donate" method="POST">
+            <label for="donorName">Name:</label>
+            <input type="text" id="donorName" name="donorName" required><br>
+
+            <label for="bloodGroup">Blood Group:</label>
+            <input type="text" id="bloodGroup" name="bloodGroup" required><br>
+
+            <label for="unitsDonated">Units Donated:</label>
+            <input type="number" id="unitsDonated" name="unitsDonated" required><br>
+
+
+            <label for="contactNumber">Contact Number:</label>
+            <input type="text" id="contactNumber" name="contactNumber" required><br>
+
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city" required><br>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

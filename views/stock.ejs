@@ -1,0 +1,66 @@
+<!-- views/stock.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="/css/jquery.dataTables.min.css">
+    <!-- jQuery and DataTables JavaScript -->
+    <script src="/js/jquery-3.6.0.min.js"></script>
+    <script src="/js/jquery.dataTables.min.js"></script>
+    <title>Blood Stock</title>
+</head>
+<body>
+    <%- include('partials/navbar') %> <!-- Include Navbar -->
+    <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>Blood Stock</h2>
+            <button onclick="scrollToForm()" class="add-request-btn">Add Stock</button>
+          </div>
+        <table border="1" id="dataTable" class="display" style="width:100%; border: 1px solid #ddd; text-align: left;">
+            <thead>
+                <tr>
+                    <th>Blood Group</th>
+                    <th>Units Available</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% stocks.forEach(stock => { %>
+                    <tr>
+                        <td><%= stock.bloodGroup %></td>
+                        <td><%= stock.unitsAvailable %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+
+        <h2>Update Blood Stock</h2>
+        <form id="request-form-section" class="formClass" action="/stock" method="POST">
+            <label for="bloodGroup">Blood Group:</label>
+            <input type="text" id="bloodGroup" name="bloodGroup" required><br>
+
+            <label for="unitsAvailable">Units Available:</label>
+            <input type="number" id="unitsAvailable" name="unitsAvailable" required><br>
+
+            <button type="submit">Update Stock</button>
+        </form>
+        <script>
+            $(document).ready(function() {
+                $('#dataTable').DataTable({
+                    "paging": true,
+                    "searching": true,
+                    "ordering": true,
+                    "lengthMenu": [5, 10, 20], // Controls the pagination options
+                    "pageLength": 5 // Default number of rows per page
+                });
+            });
+
+            function scrollToForm() {
+                document.getElementById("request-form-section").scrollIntoView({ behavior: 'smooth' });
+            }
+        </script>
+    </div>
+</body>
+</html>

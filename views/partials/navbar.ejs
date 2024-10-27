@@ -1,0 +1,22 @@
+<!-- views/partials/navbar.ejs -->
+<nav>
+    <ul>
+        <% if (session.userId) { %>
+            <% if (session.role === 'Admin') { %>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/requests">Manage Requests</a></li>
+                <li><a href="/donors">Manage Donors</a></li>
+                <li><a href="/stock">Manage Stock</a></li>
+            <% } else { %>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/donate">Donate Blood</a></li>
+                <li><a href="/donors">Manage Donors</a></li>
+                <li><a href="/requests">My Requests</a></li>
+            <% } %>
+            <li><form class="logout" action="/logout" method="POST"><button style="height: 32px;" type="submit">Logout</button></form></li>
+        <% } else { %>
+            <li><a href="/login">Login</a></li>
+            <li><a href="/register">Register</a></li>
+        <% } %>
+    </ul>
+</nav>
